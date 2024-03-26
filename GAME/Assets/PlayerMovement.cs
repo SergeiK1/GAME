@@ -4,26 +4,28 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
+
+    private Rigidbody2D rb;
+    private float moveStrengthX = 7.0f; 
+    private float jumpStrength = 14.0f; 
+        
     void Start()
     {
+        rb = GetComponent<Rigidbody2D>(); 
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("space"))
+        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
+
+        float moveX = Input.GetAxisRaw("Horizontal");
+        rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
+
+        if (Input.GetButtonDown("Jump"))
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector3(0, 7, 0);
-        }
-        if (Input.GetKey("d"))
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector3(3, 0, 0);
-        }
-        if (Input.GetKey("a"))
-        {
-            GetComponent<Rigidbody2D>().velocity = new Vector3(-3, 0, 0);
+            rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
         }
         
     }
