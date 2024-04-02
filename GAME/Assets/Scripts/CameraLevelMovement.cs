@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room : MonoBehaviour
+public class CameraLevelMovement : MonoBehaviour
 {
-    public GameObject virtualCam;
+   public GameObject virtualCam;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
