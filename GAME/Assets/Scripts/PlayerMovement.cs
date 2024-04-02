@@ -19,12 +19,15 @@ public class PlayerMovement : MonoBehaviour
     // Variables
     private float moveX = 0f;
     [SerializeField] private float moveStrengthX = 7.0f; 
-    [SerializeField] private float jumpStrength = 14.0f; 
+    [SerializeField] private float jumpStrength = 2f; 
+    private float jumpStrength_add = 0f; 
+    private float timer;
     [SerializeField] private LayerMask jumpableGround; // sets the layer to check for
         
 
     // States
-    private enum MovementState { idle, running, jumping, falling} // limits what values something can be set to
+    private enum MovementState { idle, running, jumping, falling, crouching} // limits what values something can be set to
+    private bool sprite_crouching = false;
 
 
     void Start()
@@ -34,23 +37,42 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
-
-        moveX = Input.GetAxisRaw("Horizontal"); // takes input from user
-        rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y); 
-
+        moveX = Input.GetAxisRaw("Horizontal");
+       //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
+        // takes input from user 
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpStrength);
+            sprite_crouching = true;
+            timer = 0f; 
         }
-        
-
+        else if (Input.GetButton("Jump") && sprite_crouching)
+        {
+            timer += Time.deltaTime;
+        }
+        else if (Input.GetButtonUp("Jump") && IsGrounded()){
+            if (timer>4f)
+            {
+                timer = 4f;
+            }
+            jumpStrength_add = timer*4;
+            sprite_crouching = false; 
+            rb.velocity = new Vector2(rb.velocity.x, jumpStrength+jumpStrength_add);
+            timer = 0f;
+    
+        }
+        if (IsGrounded() && !sprite_crouching)
+        {
+            rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
+        }
+        else if (sprite_crouching)
+        { 
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
         // updates aniamtion state
         UpdateAnimUpdate();
     }
@@ -60,14 +82,16 @@ public class PlayerMovement : MonoBehaviour
     {
 
      MovementState state;
-
-
-        if (moveX > 0f)
+        if (sprite_crouching)
+        {
+            state = MovementState.crouching;
+        }
+        else if (rb.velocity.x > 0f && !sprite_crouching)
         {
             state = MovementState.running;
             sprite.flipX = false;
         } 
-        else if (moveX < 0f)
+        else if (rb.velocity.x < 0f && !sprite_crouching)
         {
             state = MovementState.running;
             sprite.flipX = true;
@@ -76,7 +100,6 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.idle;
         }
-
         if (rb.velocity.y > 0.1f) // 0.1f to account for inaccuracies  (just cant use 0)
         {
             state = MovementState.jumping;
