@@ -14,14 +14,13 @@ public class PlayerMovement : MonoBehaviour
     private BoxCollider2D coll;  // for grounded method
 
 
-
-
     // Variables
     private float moveX = 0f;
-    [SerializeField] private float moveStrengthX = 7.0f; 
-    [SerializeField] private float jumpStrength = 2f; 
+    [SerializeField] private float moveStrengthX = 10.0f; 
+    [SerializeField] private float jumpStrength = 4f; 
     private float jumpStrength_add = 0f; 
     private float timer;
+    private float directionX; 
     [SerializeField] private LayerMask jumpableGround; // sets the layer to check for
         
 
@@ -55,28 +54,32 @@ public class PlayerMovement : MonoBehaviour
             timer += Time.deltaTime;
         }
         else if (Input.GetButtonUp("Jump") && IsGrounded()){
-            if (timer>4f)
+            if (timer>2.5f)
             {
-                timer = 4f;
+                timer = 2.5f;
             }
-            jumpStrength_add = timer*4;
+            jumpStrength_add = timer*6;
             sprite_crouching = false; 
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength+jumpStrength_add);
             timer = 0f;
     
         }
-        if (IsGrounded() && !sprite_crouching)
+        if (sprite_crouching)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            directionX = moveX;
+        }
+        else if (!IsGrounded())
+        {
+            rb.velocity= new Vector2(directionX*moveStrengthX*1.7f, rb.velocity.y);
+        }
+        else if (IsGrounded() && !sprite_crouching)
         {
             rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
-        }
-        else if (sprite_crouching)
-        { 
-            rb.velocity = new Vector2(0, rb.velocity.y);
         }
         // updates aniamtion state
         UpdateAnimUpdate();
     }
-
 
     private void UpdateAnimUpdate() 
     {
@@ -115,8 +118,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);   // creates a box around the player trhe same as the player collider  (first 3 variables) then it moves it down just a bit (so you can detect before hitting the ground)  (allows overlap) 
-
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);   // creates a box around the player trhe same as the player collider  (first 3 variables) then it moves it down just a bit (so you can detect before hitting the ground)  (allows overlap)  q q 
     }
  
 }
