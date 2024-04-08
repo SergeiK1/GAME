@@ -193,7 +193,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: WELCOME TO MA563s
+  m_Text: PEACE AT LAST
 --- !u!222 &51294460
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.00051116943, y: -1}
+  m_AnchoredPosition: {x: -3, y: 2}
   m_SizeDelta: {x: 917.5, y: 56.3697}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &157997831
@@ -272,7 +272,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: WELCOME TO MA563s
+  m_Text: PEACE AT LAST
 --- !u!222 &157997832
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -467,7 +467,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 919263943}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: StartMenue, Assembly-CSharp
         m_MethodName: StartGame
         m_Mode: 1
@@ -526,7 +526,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 919263938}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 053f770affb1e434182889979098c142, type: 3}
+  m_Script: {fileID: 11500000, guid: fba6f25bbb65a40ca9623f5ead9c40f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1098681213
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 446d07a4ade3c4a2a91135e4579adc4e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 23b57499ef7d441ea8029660bf1ae716, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -837,7 +837,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: PRESS START
+  m_Text: LEAVE
 --- !u!222 &1519728314
 CanvasRenderer:
   m_ObjectHideFlags: 0
