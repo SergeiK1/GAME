@@ -16,11 +16,10 @@ public class PlayerMovement : MonoBehaviour
 
     // Variables
     private float moveX = 0f;
-    [SerializeField] private float moveStrengthX = 10.0f; 
-    [SerializeField] private float jumpStrength = 4f; 
+    [SerializeField] private float moveStrengthX = 9.0f; 
+    [SerializeField] private float jumpStrength = 15f; 
     private float jumpStrength_add = 0f; 
     private float timer;
-    private float directionX; 
     [SerializeField] private LayerMask jumpableGround; // sets the layer to check for
         
 
@@ -54,24 +53,18 @@ public class PlayerMovement : MonoBehaviour
             timer += Time.deltaTime;
         }
         else if (Input.GetButtonUp("Jump") && IsGrounded()){
-            if (timer>2.5f)
+            if (timer>2.2f)
             {
-                timer = 2.5f;
+                timer = 2.2f;
             }
-            jumpStrength_add = timer*6;
+            jumpStrength_add = timer*20;
             sprite_crouching = false; 
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength+jumpStrength_add);
             timer = 0f;
-    
         }
         if (sprite_crouching)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
-            directionX = moveX;
-        }
-        else if (!IsGrounded())
-        {
-            rb.velocity= new Vector2(directionX*moveStrengthX*1.7f, rb.velocity.y);
         }
         else if (IsGrounded() && !sprite_crouching)
         {
