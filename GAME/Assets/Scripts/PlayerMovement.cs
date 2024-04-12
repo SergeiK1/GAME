@@ -53,11 +53,11 @@ public class PlayerMovement : MonoBehaviour
             timer += Time.deltaTime;
         }
         else if (Input.GetButtonUp("Jump") && IsGrounded()){
-            if (timer>2.2f)
+            if (timer>1.8f)
             {
-                timer = 2.2f;
+                timer = 1.8f;
             }
-            jumpStrength_add = timer*20;
+            jumpStrength_add = timer*16;
             sprite_crouching = false; 
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength+jumpStrength_add);
             timer = 0f;
