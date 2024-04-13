@@ -27,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     private enum MovementState { idle, running, jumping, falling, crouching} // limits what values something can be set to
     private bool sprite_crouching = false;
 
+    [SerializeField] private AudioSource jumpSoundEffect;
+
 
     void Start()
     {
@@ -57,6 +59,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 timer = 1.8f;
             }
+            jumpSoundEffect.Play();
             jumpStrength_add = timer*16;
             sprite_crouching = false; 
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength+jumpStrength_add);
