@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpStrength = 15f; 
     private float jumpStrength_add = 0f; 
     private float timer;
+    private bool isActive; 
     [SerializeField] private LayerMask jumpableGround; // sets the layer to check for
         
 
@@ -37,11 +38,32 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
+        isActive = true;
+
+    
     }
 
     // Update is called once per frame
     void Update()
     {
+        
+
+        // for pausing 
+        if (Input.GetButtonDown("Cancel") && isActive)
+        {
+            PauseGame();
+            Debug.Log("Paused");
+        }
+        if (Input.GetButtonDown("Cancel") && isActive)
+        {
+            StartGame();
+            Debug.Log("Paused");
+        }
+
+
+
+
+
         moveX = Input.GetAxisRaw("Horizontal");
        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
         // takes input from user 
@@ -117,4 +139,18 @@ public class PlayerMovement : MonoBehaviour
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);   // creates a box around the player trhe same as the player collider  (first 3 variables) then it moves it down just a bit (so you can detect before hitting the ground)  (allows overlap)  q q 
     }
  
+    private void PauseGame() 
+    {
+
+        // LOAD PAUSE SCREEN
+        Time.timeScale = 0;
+        isActive = false;
+    }
+    private void StartGame()
+    {
+        Time.timeScale = 1;
+        isActive = true;
+    }
+
+
 }
