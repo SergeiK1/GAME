@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-
-
     //Components 
 
     private Rigidbody2D rb;
@@ -25,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
         
 
     // States
-    private enum MovementState { idle, running, jumping, falling, crouching} // limits what values something can be set to
+    private enum MovementState { idle, running, jumping, falling, crouching, colliding} // limits what values something can be set to
     private bool sprite_crouching = false;
 
     [SerializeField] private AudioSource jumpSoundEffect;
@@ -98,10 +96,19 @@ public class PlayerMovement : MonoBehaviour
         // updates aniamtion state
         UpdateAnimUpdate();
     }
+    
+    private void CheckCollion ()
+    {
+        if (currentState == MovementState.jumping)
+        {
+        float bounceForce = 3f;
+        rb.velocity = new Vector2(-moveX * moveStrengthX, jumpStrength/2 + bounceForce);
+        state = MovementState.bouncing;
+        }
+    }
 
     private void UpdateAnimUpdate() 
     {
-
      MovementState state;
         if (sprite_crouching)
         {
@@ -129,18 +136,15 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.falling;
         }
-
-
         anim.SetInteger("state", (int)state); // convert to int so unity can interpret (setup in unities animator through numbers )
     }
 
     private bool IsGrounded()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);   // creates a box around the player trhe same as the player collider  (first 3 variables) then it moves it down just a bit (so you can detect before hitting the ground)  (allows overlap)  q q 
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);   // creates a box around the player the same as the player collider  (first 3 variables) then it moves it down just a bit (so you can detect before hitting the ground)  (allows overlap)  q q 
     }
  
     private void PauseGame() 
-    {
 
         // LOAD PAUSE SCREEN
         Time.timeScale = 0;
@@ -153,4 +157,4 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-}
+
