@@ -18,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpStrength = 15f; 
     private float jumpStrength_add = 0f; 
     private float timer;
+
+
+    private bool spriteBounced = false; 
+
     private bool isActive; 
     [SerializeField] private LayerMask jumpableGround; // sets the layer to check for
         
@@ -37,16 +41,11 @@ public class PlayerMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
         isActive = true;
-
-    
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-
-        // for pausing 
         if (Input.GetButtonDown("Cancel") && isActive)
         {
             PauseGame();
@@ -57,7 +56,6 @@ public class PlayerMovement : MonoBehaviour
             StartGame();
             Debug.Log("Paused");
         }
-
 
         moveX = Input.GetAxisRaw("Horizontal");
        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
@@ -90,21 +88,22 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
         }
+        if (IsGrounded())
+        {
+            spriteBounced = false;
+        }
         // updates aniamtion state
-        UpdateAnimUpdate();
         TestWallCollision();
+        UpdateAnimUpdate();
     }
     
     private void TestWallCollision()
     {
-        MovementState state;
-        if (!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()))
+        if (!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
         {
-            Debug.Log("sdfsdf");
+            spriteBounced = true;
             float bounceForce = 3f;
             rb.velocity = new Vector2(-rb.velocity.x, jumpStrength / 2 + bounceForce);
-            state = MovementState.bouncing;
-            anim.SetInteger("state", (int)state);
         }
     }
     private void UpdateAnimUpdate() 
