@@ -25,7 +25,6 @@ public class PlayerMovement : MonoBehaviour
     // States
     private enum MovementState { idle, running, jumping, falling, crouching, bouncing} // limits what values something can be set to
     private bool sprite_crouching = false;
-    private bool sprite_jumping = false;
 
     [SerializeField] private AudioSource jumpSoundEffect;
 
@@ -80,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
             jumpSoundEffect.Play();
             jumpStrength_add = timer*16;
             sprite_crouching = false; 
-            sprite_jumping = true; 
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength+jumpStrength_add);
             timer = 0f;
         }
@@ -90,22 +88,23 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (IsGrounded() && !sprite_crouching)
         {
-            sprite_jumping = false; 
             rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
         }
         // updates aniamtion state
         UpdateAnimUpdate();
+        TestWallCollision();
     }
     
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void TestWallCollision()
     {
         MovementState state;
-        if (sprite_jumping && collision.gameObject.tag == "Wall")
+        if (!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()))
         {
-        float bounceForce = 3f;
-        rb.velocity = new Vector2(-rb.velocity.x, jumpStrength / 2 + bounceForce);
-        state = MovementState.bouncing;
-        anim.SetInteger("state", (int)state);
+            Debug.Log("sdfsdf");
+            float bounceForce = 3f;
+            rb.velocity = new Vector2(-rb.velocity.x, jumpStrength / 2 + bounceForce);
+            state = MovementState.bouncing;
+            anim.SetInteger("state", (int)state);
         }
     }
     private void UpdateAnimUpdate() 
@@ -144,7 +143,17 @@ public class PlayerMovement : MonoBehaviour
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);   // creates a box around the player the same as the player collider  (first 3 variables) then it moves it down just a bit (so you can detect before hitting the ground)  (allows overlap)  q q 
     }
- 
+
+    private bool IsTouchingLeft()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.left, 0.1f, jumpableGround);   // 
+    } 
+
+    private bool IsTouchingRight()
+    {
+        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, 0.1f, jumpableGround);   // 
+    } 
+
     private void PauseGame() 
     {
 
