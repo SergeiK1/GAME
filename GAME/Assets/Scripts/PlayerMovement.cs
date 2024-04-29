@@ -23,8 +23,9 @@ public class PlayerMovement : MonoBehaviour
         
 
     // States
-    private enum MovementState { idle, running, jumping, falling, crouching, colliding} // limits what values something can be set to
+    private enum MovementState { idle, running, jumping, falling, crouching, bouncing} // limits what values something can be set to
     private bool sprite_crouching = false;
+    private bool sprite_jumping = false;
 
     [SerializeField] private AudioSource jumpSoundEffect;
 
@@ -59,9 +60,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-
-
-
         moveX = Input.GetAxisRaw("Horizontal");
        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
         // takes input from user 
@@ -82,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
             jumpSoundEffect.Play();
             jumpStrength_add = timer*16;
             sprite_crouching = false; 
+            sprite_jumping = true; 
             rb.velocity = new Vector2(rb.velocity.x, jumpStrength+jumpStrength_add);
             timer = 0f;
         }
@@ -91,22 +90,24 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (IsGrounded() && !sprite_crouching)
         {
+            sprite_jumping = false; 
             rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
         }
         // updates aniamtion state
         UpdateAnimUpdate();
     }
     
-    private void CheckCollion ()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (currentState == MovementState.jumping)
+        MovementState state;
+        if (sprite_jumping && collision.gameObject.tag == "Wall")
         {
         float bounceForce = 3f;
-        rb.velocity = new Vector2(-moveX * moveStrengthX, jumpStrength/2 + bounceForce);
+        rb.velocity = new Vector2(-rb.velocity.x, jumpStrength / 2 + bounceForce);
         state = MovementState.bouncing;
+        anim.SetInteger("state", (int)state);
         }
     }
-
     private void UpdateAnimUpdate() 
     {
      MovementState state;
@@ -145,6 +146,7 @@ public class PlayerMovement : MonoBehaviour
     }
  
     private void PauseGame() 
+    {
 
         // LOAD PAUSE SCREEN
         Time.timeScale = 0;
@@ -155,6 +157,7 @@ public class PlayerMovement : MonoBehaviour
         Time.timeScale = 1;
         isActive = true;
     }
+}
 
 
 
