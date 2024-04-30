@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool spriteBounced = false; 
 
+
     private bool isActive; 
     [SerializeField] private LayerMask jumpableGround; // sets the layer to check for
         
@@ -92,23 +93,24 @@ public class PlayerMovement : MonoBehaviour
         {
             spriteBounced = false;
         }
+        if(!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
+        {
+            spriteBounce();
+        }
+
         // updates aniamtion state
-        TestWallCollision();
         UpdateAnimUpdate();
     }
-    
-    private void TestWallCollision()
+    private void spriteBounce()
     {
-        if (!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
-        {
             spriteBounced = true;
             float bounceForce = 3f;
             rb.velocity = new Vector2(-rb.velocity.x, jumpStrength / 2 + bounceForce);
         }
-    }
+    
     private void UpdateAnimUpdate() 
     {
-     MovementState state;
+        MovementState state;
         if (sprite_crouching)
         {
             state = MovementState.crouching;
@@ -127,7 +129,11 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.idle;
         }
-        if (rb.velocity.y > 0.1f) // 0.1f to account for inaccuracies  (just cant use 0)
+        if (spriteBounced)
+        {
+            state = MovementState.bouncing;
+        }
+        else if (rb.velocity.y > 0.1f) // 0.1f to account for inaccuracies  (just cant use 0)
         {
             state = MovementState.jumping;
         }
@@ -135,6 +141,7 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.falling;
         }
+
         anim.SetInteger("state", (int)state); // convert to int so unity can interpret (setup in unities animator through numbers )
     }
 
@@ -145,12 +152,18 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsTouchingLeft()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.left, 0.1f, jumpableGround);   // 
+        Vector2 bigSize = new Vector2(coll.bounds.size.x * 1.2f, coll.bounds.size.y);
+        bool touchingLeft = Physics2D.BoxCast(coll.bounds.center, bigSize, 0f, Vector2.left, 0.1f, jumpableGround);
+        bool Bounce = touchingLeft && rb.velocity.y > 0f;
+        return Bounce; 
     } 
 
     private bool IsTouchingRight()
     {
-        return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.right, 0.1f, jumpableGround);   // 
+        Vector2 bigSize = new Vector2(coll.bounds.size.x * 1.2f, coll.bounds.size.y);
+        bool touchingRight =  Physics2D.BoxCast(coll.bounds.center, bigSize, 0f, Vector2.right, 0.1f, jumpableGround);   
+        bool Bounce = touchingRight && rb.velocity.y > 0f;
+        return Bounce; 
     } 
 
     private void PauseGame() 
