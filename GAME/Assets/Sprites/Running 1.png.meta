@@ -147,9 +147,9 @@ TextureImporter:
       name: Running 1_1
       rect:
         serializedVersion: 2
-        x: 537
+        x: 531
         y: 0
-        width: 400
+        width: 405
         height: 397
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
