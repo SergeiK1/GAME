@@ -20,10 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private float timer;
 
 
-    private bool spriteBounced = false; 
-
-
-    private bool isActive; 
+    private bool spriteBounced = false;
     [SerializeField] private LayerMask jumpableGround; // sets the layer to check for
         
 
@@ -34,6 +31,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioSource jumpSoundEffect;
 
 
+
+
     void Start()
     {
         //Define Components
@@ -41,22 +40,12 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
-        isActive = true;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetButtonDown("Cancel") && isActive)
-        {
-            PauseGame();
-            Debug.Log("Paused");
-        }
-        if (Input.GetButtonDown("Cancel") && isActive)
-        {
-            StartGame();
-            Debug.Log("Paused");
-        }
 
         moveX = Input.GetAxisRaw("Horizontal");
        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
@@ -166,18 +155,6 @@ public class PlayerMovement : MonoBehaviour
         return Bounce; 
     } 
 
-    private void PauseGame() 
-    {
-
-        // LOAD PAUSE SCREEN
-        Time.timeScale = 0;
-        isActive = false;
-    }
-    private void StartGame()
-    {
-        Time.timeScale = 1;
-        isActive = true;
-    }
 }
 
 
