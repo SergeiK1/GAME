@@ -46,7 +46,6 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         moveX = Input.GetAxisRaw("Horizontal");
        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
         // takes input from user 
@@ -78,11 +77,11 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
         }
-        if (IsGrounded())
+        if (rb.velocity.y == 0f)
         {
             spriteBounced = false;
         }
-        if(!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
+        else if(!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
         {
             spriteBounce();
         }
@@ -100,6 +99,7 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimUpdate() 
     {
         MovementState state;
+
         if (sprite_crouching)
         {
             state = MovementState.crouching;
@@ -131,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.falling;
         }
 
+
         anim.SetInteger("state", (int)state); // convert to int so unity can interpret (setup in unities animator through numbers )
     }
 
@@ -141,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsTouchingLeft()
     {
-        Vector2 bigSize = new Vector2(coll.bounds.size.x * 1.2f, coll.bounds.size.y);
+        Vector2 bigSize = new Vector2(coll.bounds.size.x * 1.1f, coll.bounds.size.y);
         bool touchingLeft = Physics2D.BoxCast(coll.bounds.center, bigSize, 0f, Vector2.left, 0.1f, jumpableGround);
         bool Bounce = touchingLeft && rb.velocity.y > 0f;
         return Bounce; 
@@ -149,7 +150,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool IsTouchingRight()
     {
-        Vector2 bigSize = new Vector2(coll.bounds.size.x * 1.2f, coll.bounds.size.y);
+        Vector2 bigSize = new Vector2(coll.bounds.size.x * 1.1f, coll.bounds.size.y);
         bool touchingRight =  Physics2D.BoxCast(coll.bounds.center, bigSize, 0f, Vector2.right, 0.1f, jumpableGround);   
         bool Bounce = touchingRight && rb.velocity.y > 0f;
         return Bounce; 
