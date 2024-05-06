@@ -9,6 +9,7 @@ public class PauseScript : MonoBehaviour
         public GameObject pauseMenu;
         public static bool isActive = true;
         
+        
 
     // Update is called once per frame
     void Update()
