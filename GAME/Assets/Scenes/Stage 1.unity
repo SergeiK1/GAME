@@ -2192,14 +2192,14 @@ GameObject:
   m_Component:
   - component: {fileID: 30245220}
   - component: {fileID: 30245222}
-  - component: {fileID: 30245221}
+  - component: {fileID: 30245223}
   m_Layer: 0
   m_Name: WindZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &30245220
 Transform:
   m_ObjectHideFlags: 0
@@ -2215,20 +2215,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1881244825}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!182 &30245221
-WindZone:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 30245219}
-  m_Enabled: 1
-  m_Mode: 0
-  m_Radius: 20
-  m_WindMain: 1
-  m_WindTurbulence: 1
-  m_WindPulseMagnitude: 0.5
-  m_WindPulseFrequency: 0.01
 --- !u!61 &30245222
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -2258,7 +2244,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 30.242405, y: 30.379822}
@@ -2274,6 +2260,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 107.856865, y: 61.759644}
   m_EdgeRadius: 0
+--- !u!114 &30245223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 30245219}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e13a85d923d94e5086197e942e896a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  windDirection: {x: 1, y: 0}
+  windStrength: 5
 --- !u!1 &127149525
 GameObject:
   m_ObjectHideFlags: 0
@@ -2841,7 +2841,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!212 &326434855
 SpriteRenderer:
@@ -2904,7 +2904,7 @@ Transform:
   m_GameObject: {fileID: 326434853}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2, y: 74, z: 0}
+  m_LocalPosition: {x: 3, y: 80, z: 0}
   m_LocalScale: {x: 0.46638638, y: 0.46638638, z: 0.46638638}
   m_ConstrainProportionsScale: 0
   m_Children: []
