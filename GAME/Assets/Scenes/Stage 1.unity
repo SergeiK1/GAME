@@ -2943,7 +2943,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.24769449, y: 0.043422222}
+  m_Offset: {x: 0.11296272, y: 0.028457582}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -2954,7 +2954,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.6871815, y: 3.267414}
+  m_Size: {x: 2.956645, y: 3.2973433}
   m_EdgeRadius: 0
 --- !u!114 &326434858
 MonoBehaviour:
@@ -10679,13 +10679,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 926390460}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.3185337, y: 0.6015501, z: -0.64741606, w: 0.34282115}
-  m_LocalPosition: {x: -28, y: 105, z: 0}
-  m_LocalScale: {x: 24.096, y: 24.096, z: 24.096}
+  m_LocalRotation: {x: -0.4808442, y: 0.48178262, z: -0.51851726, w: 0.51750785}
+  m_LocalPosition: {x: -28, y: 84, z: 0}
+  m_LocalScale: {x: 24.308046, y: 24.308046, z: 24.308046}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1881244825}
-  m_LocalEulerAnglesHint: {x: 34.091, y: 84.919, z: -92.853}
+  m_LocalEulerAnglesHint: {x: 0.111, y: 85.794, z: -90.008}
 --- !u!199 &926390462
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -11391,7 +11391,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 5
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
@@ -16360,13 +16360,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1741765432}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.31195483, y: 0.6049877, z: -0.65111655, w: -0.33574}
-  m_LocalPosition: {x: 16, y: 104, z: 0}
+  m_LocalRotation: {x: 0.48071033, y: 0.48191607, z: -0.51866156, w: -0.51736325}
+  m_LocalPosition: {x: 25, y: 83, z: 0}
   m_LocalScale: {x: 24.096, y: 24.096, z: 24.096}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1881244825}
-  m_LocalEulerAnglesHint: {x: 35.336, y: -84.841, z: -267.011}
+  m_LocalEulerAnglesHint: {x: 0.143, y: -85.794, z: -269.989}
 --- !u!199 &1741765434
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -17072,7 +17072,7 @@ ParticleSystem:
   ShapeModule:
     serializedVersion: 6
     enabled: 1
-    type: 4
+    type: 5
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
