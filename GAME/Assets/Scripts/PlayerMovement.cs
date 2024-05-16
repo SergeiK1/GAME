@@ -19,18 +19,8 @@ public class PlayerMovement : MonoBehaviour
     private float jumpStrength_add = 0f; 
     private float timer;
 
-    
-
-    private bool OnIce = false; 
-
-    
-
 
     private bool spriteBounced = false;
-
-    private float iceFriction;
-
-
     [SerializeField] private LayerMask jumpableGround; // sets the layer to check for
         
 
@@ -57,28 +47,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         moveX = Input.GetAxisRaw("Horizontal");
-        if (IsGrounded())
-        {
-            spriteBounced = false; 
-            if (OnIce)
-                {
-                    float targetSpeed = moveX * moveStrengthX;
-                    float lerpFactor = (Mathf.Abs(moveX) > 0) ? 0.95f : 0.2f;
-                    rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, targetSpeed, lerpFactor), rb.velocity.y);
-                }
-            else
-                {
-                    rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
-                }
-        }
-        else
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
-        }
-    
-
-
-
        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
         // takes input from user 
         if (Input.GetButtonDown("Jump") && IsGrounded())
@@ -107,9 +75,13 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (IsGrounded() && !sprite_crouching)
         {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+            rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
         }
-        if(!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
+        if (rb.velocity.y == 0f)
+        {
+            spriteBounced = false;
+        }
+        else if(!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
         {
             spriteBounce();
         }
@@ -117,23 +89,6 @@ public class PlayerMovement : MonoBehaviour
         // updates aniamtion state
         UpdateAnimUpdate();
     }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ice"))
-        {
-            OnIce = true;
-        }
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ice"))
-        {
-            OnIce = true;
-        }
-    }
-
     private void spriteBounce()
     {
             spriteBounced = true;
@@ -202,6 +157,10 @@ public class PlayerMovement : MonoBehaviour
     } 
 
 }
+
+
+
+
 
 
 
