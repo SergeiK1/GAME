@@ -11,6 +11,8 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sprite; 
     private BoxCollider2D coll;  // for grounded method
 
+    private bool OnIce = false; 
+
 
     // Variables
     private float moveX = 0f;
@@ -46,9 +48,29 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        moveX = Input.GetAxisRaw("Horizontal");
+        if (OnIce)
+        {
+            moveX = Input.GetAxis("Horizontal"); // Smoother, sliding movement
+        }
+        else
+        {
+            moveX = Input.GetAxisRaw("Horizontal");
+
+        }
        //        float moveX = Input.GetAxis("Horizontal"); // DONT USE RAW = ICE
         // takes input from user 
+
+        // updates aniamtion state
+        JumpandCrouchHandling();
+        UpdateAnimUpdate();
+    }
+
+    private void JumpandCrouchHandling()
+    {
+        if (IsGrounded())
+        {
+            spriteBounced = false; 
+        }
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
             sprite_crouching = true;
@@ -77,17 +99,26 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector2(moveX * moveStrengthX, rb.velocity.y);
         }
-        if (rb.velocity.y == 0f)
-        {
-            spriteBounced = false;
-        }
-        else if(!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
+        if(!IsGrounded() && (IsTouchingLeft() || IsTouchingRight()) && !spriteBounced)
         {
             spriteBounce();
         }
+    }
 
-        // updates aniamtion state
-        UpdateAnimUpdate();
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            OnIce = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ice"))
+        {
+            OnIce = false;
+        }
     }
     private void spriteBounce()
     {
